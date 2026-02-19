@@ -1,260 +1,1358 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inès | Birthday Experience</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit Propreté GXO</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- =========================
+       STYLES GLOBAUX / CHARTE
+  ========================== -->
+  <style>
+    :root {
+      /* Couleurs GXO / palette */
+      --gxo-orange: #FF3A00;         /* Couleur principale GXO [web:11][web:20] */
+      --gxo-orange-soft: #FF6A33;
+      --gxo-dark: #121212;
+      --gxo-mid: #333333;
+      --gxo-light: #F5F5F5;
+      --gxo-border: #DDDDDD;
+      --gxo-accent: #1B3A57;
+      --gxo-green: #27AE60;
+      --gxo-yellow: #F1C40F;
+      --gxo-red: #E74C3C;
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --radius-sm: 6px;
 
-body{
-    font-family:'Poppins',sans-serif;
-    background:#000;
-    overflow:hidden;
-    color:white;
-}
+      --shadow-soft: 0 10px 25px rgba(0,0,0,0.12);
+      --shadow-subtle: 0 4px 10px rgba(0,0,0,0.06);
 
-/* INTRO SCREEN */
-
-.intro{
-    position:absolute;
-    width:100%;
-    height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    background:radial-gradient(circle at center,#111,#000);
-    z-index:5;
-    transition:1.5s ease;
-}
-
-.intro h1{
-    font-size:2em;
-    font-weight:300;
-    letter-spacing:2px;
-    opacity:0.8;
-}
-
-.intro button{
-    margin-top:30px;
-    padding:12px 30px;
-    border:none;
-    border-radius:30px;
-    background:#00f5d4;
-    color:#000;
-    font-weight:600;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.intro button:hover{
-    transform:scale(1.05);
-}
-
-/* MAIN EXPERIENCE */
-
-.main{
-    position:absolute;
-    width:100%;
-    height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    opacity:0;
-    transition:2s ease;
-}
-
-.card{
-    backdrop-filter:blur(25px);
-    background:rgba(255,255,255,0.06);
-    padding:50px;
-    border-radius:30px;
-    text-align:center;
-    max-width:700px;
-    width:90%;
-    box-shadow:0 0 80px rgba(0,0,0,0.8);
-}
-
-h2{
-    font-size:2.5em;
-    font-weight:600;
-}
-
-.name{
-    color:#00f5d4;
-}
-
-.subtitle{
-    margin:15px 0 25px;
-    font-weight:300;
-    opacity:0.7;
-}
-
-.message{
-    font-size:1.15em;
-    line-height:1.7;
-    min-height:100px;
-}
-
-.signature{
-    margin-top:30px;
-    opacity:0;
-    transition:1.5s;
-}
-
-.heart{
-    margin-top:20px;
-    font-size:2em;
-    animation:beat 1.4s infinite;
-    color:#ff4d6d;
-}
-
-/* ECG */
-.ecg{
-    position:absolute;
-    bottom:0;
-    width:200%;
-    height:150px;
-    opacity:0.25;
-}
-
-path{
-    stroke:#00f5d4;
-    stroke-width:3;
-    fill:none;
-    stroke-dasharray:1000;
-    stroke-dashoffset:1000;
-    animation:ecgMove 6s linear infinite;
-}
-
-/* ANIMATIONS */
-
-@keyframes ecgMove{
-    0%{stroke-dashoffset:1000;}
-    100%{stroke-dashoffset:0;}
-}
-
-@keyframes beat{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.3);}
-}
-
-/* STARFIELD */
-
-.star{
-    position:absolute;
-    width:2px;
-    height:2px;
-    background:white;
-    animation:moveStar linear infinite;
-}
-
-@keyframes moveStar{
-    from{transform:translateY(0);}
-    to{transform:translateY(100vh);}
-}
-
-/* FIREWORK */
-
-.firework{
-    position:absolute;
-    width:5px;
-    height:5px;
-    background:#00f5d4;
-    border-radius:50%;
-    animation:explode 1.2s ease-out forwards;
-}
-
-@keyframes explode{
-    to{
-        transform:translate(var(--x),var(--y));
-        opacity:0;
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     }
-}
-</style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top left, #1f1f1f 0, #000 45%, #111 100%);
+      color: #222;
+    }
+
+    /* =========================
+       LAYOUT PRINCIPAL
+    ========================== */
+
+    .app-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      background: rgba(0,0,0,0.85);
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+
+    .top-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: var(--gxo-orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: #000;
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.8);
+    }
+
+    .brand-text h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .brand-text span {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .top-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+      align-items: center;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gxo-green);
+      box-shadow: 0 0 0 4px rgba(39,174,96,0.4);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 24px auto 40px auto;
+      padding: 0 20px 40px 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* =========================
+       PANNEAUX / CARTES
+    ========================== */
+
+    .panel {
+      background: rgba(255,255,255,0.98);
+      border-radius: 18px;
+      padding: 18px 18px 20px 18px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255,255,255,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at -10% -20%, rgba(255,58,0,0.15), transparent 60%),
+                  radial-gradient(circle at 110% 110%, rgba(27,58,87,0.2), transparent 65%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .panel-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--gxo-mid);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-title-badge {
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255,58,0,0.08);
+      color: var(--gxo-orange);
+      font-size: 11px;
+      border: 1px solid rgba(255,58,0,0.3);
+    }
+
+    .panel-subtitle {
+      font-size: 12px;
+      color: #777;
+      margin-top: 2px;
+    }
+
+    /* =========================
+       FORMULAIRE AUDIT
+    ========================== */
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 700px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--gxo-mid);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    label span.helper {
+      font-weight: 400;
+      font-size: 11px;
+      color: #888;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select {
+      padding: 9px 10px;
+      font-size: 13px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--gxo-border);
+      background: rgba(255,255,255,0.9);
+      outline: none;
+      transition: border 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    select:focus {
+      border-color: var(--gxo-orange);
+      box-shadow: 0 0 0 2px rgba(255,58,0,0.15);
+      background: #fff;
+    }
+
+    .zone-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .zone-badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--gxo-border);
+      font-size: 11px;
+      cursor: pointer;
+      background: #fafafa;
+      transition: all 0.15s ease;
+    }
+
+    .zone-badge.active {
+      background: var(--gxo-orange);
+      color: #000;
+      border-color: var(--gxo-orange);
+      box-shadow: 0 0 0 2px rgba(255,58,0,0.25);
+    }
+
+    /* =========================
+       TABLEAU CRITERES
+    ========================== */
+
+    .criteres-wrapper {
+      margin-top: 6px;
+      border-radius: 14px;
+      border: 1px solid var(--gxo-border);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .criteres-header {
+      display: grid;
+      grid-template-columns: 2fr 1.1fr 1.2fr 0.9fr;
+      gap: 0;
+      background: #fafafa;
+      border-bottom: 1px solid var(--gxo-border);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #777;
+    }
+
+    .criteres-header div {
+      padding: 8px 10px;
+      border-right: 1px solid var(--gxo-border);
+    }
+
+    .criteres-header div:last-child {
+      border-right: none;
+    }
+
+    .critere-row {
+      display: grid;
+      grid-template-columns: 2fr 1.1fr 1.2fr 0.9fr;
+      gap: 0;
+      font-size: 13px;
+      border-bottom: 1px solid var(--gxo-border);
+      background: #fff;
+    }
+
+    .critere-row:nth-child(even) {
+      background: #fcfcfc;
+    }
+
+    .critere-cell {
+      padding: 8px 10px;
+      border-right: 1px solid var(--gxo-border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .critere-cell:last-child {
+      border-right: none;
+    }
+
+    .critere-label {
+      font-weight: 600;
+      color: var(--gxo-mid);
+    }
+
+    .critere-zone-tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.04);
+      border: 1px solid rgba(0,0,0,0.06);
+      color: #777;
+    }
+
+    .note-select {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gxo-border);
+      background: #fff;
+      font-size: 12px;
+    }
+
+    .note-select.score-good {
+      border-color: var(--gxo-green);
+      background: rgba(39,174,96,0.06);
+    }
+
+    .note-select.score-mid {
+      border-color: var(--gxo-yellow);
+      background: rgba(241,196,15,0.06);
+    }
+
+    .note-select.score-bad {
+      border-color: var(--gxo-red);
+      background: rgba(231,76,60,0.06);
+    }
+
+    .evidence-cell input[type="file"] {
+      font-size: 11px;
+    }
+
+    .comment-input {
+      width: 100%;
+      font-size: 11px;
+      padding: 6px 7px;
+      border-radius: var(--radius-sm);
+      border: 1px dashed var(--gxo-border);
+      background: #fafafa;
+    }
+
+    /* =========================
+       ACTIONS & RESULTATS
+    ========================== */
+
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      box-shadow: var(--shadow-subtle);
+      background: #eee;
+      color: #333;
+    }
+
+    .btn-primary {
+      background: var(--gxo-orange);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 7px 16px rgba(0,0,0,0.18);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--gxo-mid);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--gxo-mid);
+      box-shadow: none;
+      border: 1px solid var(--gxo-border);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .btn-icon-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      background: rgba(255,255,255,0.5);
+    }
+
+    .score-chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fafafa;
+      border: 1px solid var(--gxo-border);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .score-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 3px solid var(--gxo-orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      background: #fff;
+    }
+
+    .score-status {
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* =========================
+       PANNEAU DROITE : RESUME
+    ========================== */
+
+    .summary-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .summary-meta {
+      font-size: 13px;
+      background: rgba(0,0,0,0.02);
+      border-radius: 12px;
+      padding: 10px 12px;
+      border: 1px dashed rgba(0,0,0,0.06);
+    }
+
+    .summary-meta-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .summary-meta-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #777;
+    }
+
+    .summary-meta-value {
+      font-weight: 600;
+      color: var(--gxo-mid);
+    }
+
+    .score-card {
+      border-radius: 14px;
+      padding: 14px 14px 16px 14px;
+      background: linear-gradient(145deg, #111, #222);
+      color: white;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .score-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,58,0,0.3), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(255,255,255,0.07), transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .score-card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .score-badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .score-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      gap: 14px;
+    }
+
+    .score-main-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .score-main-percent {
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .score-main-label {
+      font-size: 12px;
+      opacity: 0.85;
+    }
+
+    .score-main-chip {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .score-main-right {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .score-ring {
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,58,0,0.85);
+      box-shadow: 0 0 20px rgba(255,58,0,0.7);
+    }
+
+    .score-ring-inner {
+      width: 70%;
+      height: 70%;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .score-footer {
+      margin-top: 10px;
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .score-scale {
+      flex: 1;
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gxo-red), var(--gxo-yellow), var(--gxo-green));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .score-indicator {
+      position: absolute;
+      top: -3px;
+      width: 2px;
+      height: 11px;
+      background: #fff;
+      border-radius: 999px;
+      left: 0%;
+      box-shadow: 0 0 8px rgba(255,255,255,0.7);
+    }
+
+    .legend {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.7;
+    }
+
+    .actions-secondary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    /* =========================
+       CHECKLIST DETAIL / NC
+    ========================== */
+
+    .nc-list {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(0,0,0,0.08);
+      max-height: 170px;
+      overflow: auto;
+    }
+
+    .nc-item {
+      font-size: 12px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      background: #fff7f5;
+      border: 1px solid rgba(255,58,0,0.22);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nc-label {
+      font-weight: 500;
+      color: #b13a16;
+    }
+
+    .nc-zone {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.04);
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 20px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      background: #000;
+    }
+
+    /* Impression */
+    @media print {
+      header, footer, .btn-ghost, .btn-secondary, .zone-badges, .actions-secondary {
+        display: none !important;
+      }
+      body {
+        background: white;
+      }
+      .app-shell {
+        display: block;
+      }
+      main {
+        display: block;
+        padding: 0;
+        margin: 0;
+      }
+      .panel {
+        box-shadow: none;
+        border-radius: 0;
+      }
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="intro" id="intro">
-    <h1>Une expérience pour Inès</h1>
-    <button onclick="startExperience()">Commencer</button>
-</div>
-
-<div class="main" id="main">
-    <div class="card">
-        <h2>Joyeux Anniversaire <span class="name">Inès Ighil Agha</span> 🎉</h2>
-        <div class="subtitle">Future grande médecin 🩺</div>
-        <div class="message" id="typedText"></div>
-        <div class="signature" id="signature">
-            Continue d’inspirer, de soigner et de briller. Le monde aura de la chance de t’avoir. 🌟
+<div class="app-shell">
+  <!-- =========================
+       HEADER
+  ========================== -->
+  <header>
+    <div class="top-bar">
+      <div class="brand-block">
+        <div class="brand-logo">GXO</div>
+        <div class="brand-text">
+          <h1>Audit Propreté – Entrepôt</h1>
+          <span>Logistics at full potential – Propreté & 5S</span>
         </div>
-        <div class="heart">🫀</div>
+      </div>
+      <div class="top-meta">
+        <div class="pill">
+          <div class="pill-dot"></div>
+          Mode audit en ligne
+        </div>
+        <div class="pill">
+          Version 1.0 • QSE
+        </div>
+      </div>
     </div>
+  </header>
+
+  <!-- =========================
+       CONTENU PRINCIPAL
+  ========================== -->
+  <main>
+    <!-- COLONNE GAUCHE : FORM + CRITERES -->
+    <section class="panel">
+      <div class="panel-content">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">
+              Informations audit
+              <span class="panel-title-badge">Obligatoire</span>
+            </div>
+            <div class="panel-subtitle">
+              Saisir les données de l’audit avant d’évaluer les critères.
+            </div>
+          </div>
+        </div>
+
+        <!-- FORMULAIRE INFOS -->
+        <div class="grid-2" style="margin-bottom:12px;">
+          <div class="field">
+            <label for="auditeur">
+              Nom de l’auditeur
+              <span class="helper">Ex : Ahmed Benali</span>
+            </label>
+            <input type="text" id="auditeur" placeholder="Nom & prénom">
+          </div>
+          <div class="field">
+            <label for="dateAudit">
+              Date de l’audit
+              <span class="helper">JJ/MM/AAAA</span>
+            </label>
+            <input type="date" id="dateAudit">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="zone">
+              Zone auditée
+              <span class="helper">Sélectionner la zone cible</span>
+            </label>
+            <select id="zone">
+              <option value="">-- Sélectionner la zone --</option>
+              <option value="ND4">ND4</option>
+              <option value="CD5">CD5</option>
+              <option value="RIU">RIU</option>
+              <option value="ECOM">ECOM</option>
+            </select>
+
+            <div class="zone-badges">
+              <button type="button" class="zone-badge" data-zone="ND4">ND4</button>
+              <button type="button" class="zone-badge" data-zone="CD5">CD5</button>
+              <button type="button" class="zone-badge" data-zone="RIU">RIU</button>
+              <button type="button" class="zone-badge" data-zone="ECOM">ECOM</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>
+              Type d’audit
+              <span class="helper">Périodicité</span>
+            </label>
+            <select id="typeAudit">
+              <option value="Hebdomadaire">Hebdomadaire</option>
+              <option value="Mensuel">Mensuel</option>
+              <option value="Inopiné">Inopiné</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- TABLEAU CRITERES -->
+        <div style="margin-top:16px;">
+          <div class="panel-header" style="margin-bottom:8px;">
+            <div>
+              <div class="panel-title">Checklist d’audit</div>
+              <div class="panel-subtitle" id="subtitleChecklist">
+                Sélectionner une zone pour charger la checklist spécifique (ex : CD5).
+              </div>
+            </div>
+          </div>
+
+          <div class="criteres-wrapper" id="criteresWrapper">
+            <div class="criteres-header">
+              <div>Critère</div>
+              <div>Évaluation</div>
+              <div>Commentaire</div>
+              <div>Preuve</div>
+            </div>
+            <div id="criteresContainer">
+              <!-- Lignes générées en JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions-row">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary" id="btnCalcul">
+              <span class="btn-icon-circle">%</span>
+              Calculer le score
+            </button>
+            <button class="btn btn-secondary" onclick="window.print()">
+              <span class="btn-icon-circle">⧉</span>
+              Exporter en PDF
+            </button>
+          </div>
+
+          <div>
+            <div class="score-chip">
+              <div class="score-circle" id="scoreCircle">--</div>
+              <div>
+                <div class="score-status" id="scoreStatus">En attente</div>
+                <div style="font-size:11px; color:#777;" id="scoreDetail">
+                  Aucun calcul effectué
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- COLONNE DROITE : SCORE + NC -->
+    <aside class="panel">
+      <div class="panel-content">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">
+              Synthèse management
+            </div>
+            <div class="panel-subtitle">
+              Vue globale de l’audit pour revue de performance.
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-section">
+          <div class="summary-meta">
+            <div class="summary-meta-row">
+              <div class="summary-meta-label">Auditeur</div>
+              <div class="summary-meta-value" id="metaAuditeur">-</div>
+            </div>
+            <div class="summary-meta-row">
+              <div class="summary-meta-label">Date</div>
+              <div class="summary-meta-value" id="metaDate">-</div>
+            </div>
+            <div class="summary-meta-row">
+              <div class="summary-meta-label">Zone</div>
+              <div class="summary-meta-value" id="metaZone">-</div>
+            </div>
+            <div class="summary-meta-row">
+              <div class="summary-meta-label">Type audit</div>
+              <div class="summary-meta-value" id="metaType">-</div>
+            </div>
+          </div>
+
+          <div class="score-card">
+            <div class="score-card-content">
+              <div class="score-badge">
+                Score global propreté
+              </div>
+              <div class="score-main">
+                <div class="score-main-left">
+                  <div class="score-main-percent" id="mainPercent">--%</div>
+                  <div class="score-main-label" id="mainLabel">
+                    En attente d’évaluation.
+                  </div>
+                  <div class="score-main-chip" id="mainChip">
+                    Trend : N/A
+                  </div>
+                </div>
+                <div class="score-main-right">
+                  <div class="score-ring"></div>
+                  <div class="score-ring-inner" id="ringInner">--</div>
+                </div>
+              </div>
+
+              <div class="score-footer">
+                <div class="score-scale">
+                  <div class="score-indicator" id="scoreIndicator"></div>
+                </div>
+                <div class="legend" id="legendText">Insuffisant • Acceptable • Très bon</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="panel-subtitle" style="margin-bottom:6px;">Non-conformités / points d’attention</div>
+            <div class="nc-list" id="ncList">
+              <div style="font-size:12px; color:#777;">
+                Aucune non-conformité détectée tant que le score n’est pas calculé.
+              </div>
+            </div>
+          </div>
+
+          <div class="actions-secondary">
+            <button class="btn btn-ghost" id="btnReset">
+              Réinitialiser l’audit
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    Outil interne GXO – Audit Propreté / 5S – Généré pour usage QSE et management.
+  </footer>
 </div>
 
-<svg class="ecg" viewBox="0 0 1000 200">
-    <path d="M0 100 L100 100 L150 50 L200 150 L250 80 L300 100 L1000 100"/>
-</svg>
-
-<audio id="music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3c6b7bfa94.mp3?filename=romantic-ambient-11083.mp3"></audio>
-
+<!-- =========================
+     LOGIQUE JAVASCRIPT
+========================== -->
 <script>
+  // Dictionnaire des critères par zone (exemple réaliste à adapter à tes standards QSE)
+  const ZONE_CHECKLISTS = {
+    ND4: [
+      { id: "ND4_SOL", libelle: "Sols – allées principales", zone: "ND4" },
+      { id: "ND4_RANG", libelle: "Rangements – zones picking", zone: "ND4" },
+      { id: "ND4_DECH", libelle: "Déchets – bacs et compacteur", zone: "ND4" },
+      { id: "ND4_SANI", libelle: "Sanitaires ND4", zone: "ND4" },
+      { id: "ND4_DOCK", libelle: "Quais – zone ND4", zone: "ND4" }
+    ],
+    CD5: [
+      { id: "CD5_SOL", libelle: "Sols – CD5 (allées, zones de travail)", zone: "CD5" },
+      { id: "CD5_POSTE", libelle: "Postes de travail – CD5", zone: "CD5" },
+      { id: "CD5_EQUIP", libelle: "Équipements manutention (chariots, transpalettes)", zone: "CD5" },
+      { id: "CD5_DECH", libelle: "Gestion des déchets – CD5", zone: "CD5" },
+      { id: "CD5_ZONE_SENS", libelle: "Zones sensibles / sécurité – CD5", zone: "CD5" },
+      { id: "CD5_SIGNAL", libelle: "Signalisation & marquage au sol – CD5", zone: "CD5" }
+    ],
+    RIU: [
+      { id: "RIU_SOL", libelle: "Sols – zone RIU", zone: "RIU" },
+      { id: "RIU_STOCK", libelle: "Stockage – conformité & propreté", zone: "RIU" },
+      { id: "RIU_RET", libelle: "Zone retours / RIU", zone: "RIU" },
+      { id: "RIU_DECH", libelle: "Zone déchets / RIU", zone: "RIU" }
+    ],
+    ECOM: [
+      { id: "ECOM_PACK", libelle: "Postes de packing / e-commerce", zone: "ECOM" },
+      { id: "ECOM_SOL", libelle: "Sols – zone e-commerce", zone: "ECOM" },
+      { id: "ECOM_BUREAU", libelle: "Bureaux d’exploitation e-commerce", zone: "ECOM" },
+      { id: "ECOM_DECH", libelle: "Déchets & cartons – e-commerce", zone: "ECOM" },
+      { id: "ECOM_IT", libelle: "Postes informatiques – écrans, périphériques", zone: "ECOM" }
+    ]
+  };
 
-// STARFIELD
-for(let i=0;i<120;i++){
-    let star=document.createElement("div");
-    star.className="star";
-    star.style.left=Math.random()*100+"vw";
-    star.style.top=Math.random()*100+"vh";
-    star.style.animationDuration=(Math.random()*5+5)+"s";
-    document.body.appendChild(star);
-}
+  const VALEURS = {
+    "Bien": 2,
+    "Moyen": 1,
+    "Mauvais": 0,
+    "NA": null
+  };
 
-// START EXPERIENCE
-function startExperience(){
-    document.getElementById("intro").style.opacity="0";
-    setTimeout(()=>{
-        document.getElementById("intro").style.display="none";
-        document.getElementById("main").style.opacity="1";
-        typeWriter();
-        document.getElementById("music").play();
-        launchFireworks();
-    },1500);
-}
+  const criteresContainer = document.getElementById("criteresContainer");
+  const zoneSelect = document.getElementById("zone");
+  const zoneBadges = document.querySelectorAll(".zone-badge");
+  const subtitleChecklist = document.getElementById("subtitleChecklist");
 
-// TYPEWRITER
-const text="Inès, je voulais simplement marquer cette journée d’une manière différente. Te souhaiter une année à la hauteur de ton intelligence, de ton ambition et de ta douceur. Continue de poursuivre tes rêves en médecine, tu es faite pour accomplir de grandes choses.";
-let i=0;
+  const btnCalcul = document.getElementById("btnCalcul");
+  const btnReset = document.getElementById("btnReset");
 
-function typeWriter(){
-    if(i<text.length){
-        document.getElementById("typedText").innerHTML+=text.charAt(i);
-        i++;
-        setTimeout(typeWriter,35);
-    }else{
-        document.getElementById("signature").style.opacity="1";
+  const metaAuditeur = document.getElementById("metaAuditeur");
+  const metaDate = document.getElementById("metaDate");
+  const metaZone = document.getElementById("metaZone");
+  const metaType = document.getElementById("metaType");
+
+  const scoreCircle = document.getElementById("scoreCircle");
+  const scoreStatus = document.getElementById("scoreStatus");
+  const scoreDetail = document.getElementById("scoreDetail");
+  const mainPercent = document.getElementById("mainPercent");
+  const mainLabel = document.getElementById("mainLabel");
+  const mainChip = document.getElementById("mainChip");
+  const ringInner = document.getElementById("ringInner");
+  const scoreIndicator = document.getElementById("scoreIndicator");
+  const ncList = document.getElementById("ncList");
+
+  function formatDateFR(dateStr) {
+    if (!dateStr) return "-";
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return "-";
+    const jour = String(d.getDate()).padStart(2, "0");
+    const mois = String(d.getMonth() + 1).padStart(2, "0");
+    const annee = d.getFullYear();
+    return jour + "/" + mois + "/" + annee;
+  }
+
+  // Construction de la checklist en fonction de la zone
+  function buildChecklistForZone(zone) {
+    criteresContainer.innerHTML = "";
+
+    const list = ZONE_CHECKLISTS[zone] || [];
+    if (list.length === 0) {
+      subtitleChecklist.textContent =
+        "Aucune checklist spécifique pour cette zone. Veuillez sélectionner ND4, CD5, RIU ou ECOM.";
+      return;
     }
-}
 
-// FIREWORKS
-function launchFireworks(){
-    for(let i=0;i<60;i++){
-        let f=document.createElement("div");
-        f.className="firework";
-        f.style.left="50%";
-        f.style.top="50%";
-        f.style.setProperty('--x',(Math.random()*500-250)+"px");
-        f.style.setProperty('--y',(Math.random()*500-250)+"px");
-        document.body.appendChild(f);
-        setTimeout(()=>{f.remove();},1200);
+    subtitleChecklist.textContent = "Checklist spécifique zone " + zone + " – " + list.length + " critères.";
+
+    list.forEach((crit, index) => {
+      const row = document.createElement("div");
+      row.className = "critere-row";
+      row.dataset.idCritere = crit.id;
+
+      // Colonne libellé critère
+      const cellLibelle = document.createElement("div");
+      cellLibelle.className = "critere-cell";
+      const spanLabel = document.createElement("span");
+      spanLabel.className = "critere-label";
+      spanLabel.textContent = (index + 1) + ". " + crit.libelle;
+      const spanZone = document.createElement("span");
+      spanZone.className = "critere-zone-tag";
+      spanZone.textContent = crit.zone;
+      cellLibelle.appendChild(spanLabel);
+      cellLibelle.appendChild(spanZone);
+
+      // Colonne note
+      const cellNote = document.createElement("div");
+      cellNote.className = "critere-cell";
+      const select = document.createElement("select");
+      select.className = "note-select";
+      select.innerHTML = `
+        <option value="">-- Choisir --</option>
+        <option value="Bien">Bien</option>
+        <option value="Moyen">Moyen</option>
+        <option value="Mauvais">Mauvais</option>
+        <option value="NA">Non applicable</option>
+      `;
+      // Mise en couleur dynamique
+      select.addEventListener("change", () => {
+        select.classList.remove("score-good", "score-mid", "score-bad");
+        if (select.value === "Bien") {
+          select.classList.add("score-good");
+        } else if (select.value === "Moyen") {
+          select.classList.add("score-mid");
+        } else if (select.value === "Mauvais") {
+          select.classList.add("score-bad");
+        }
+      });
+      cellNote.appendChild(select);
+
+      // Colonne commentaire
+      const cellComment = document.createElement("div");
+      cellComment.className = "critere-cell";
+      const inputComment = document.createElement("input");
+      inputComment.type = "text";
+      inputComment.className = "comment-input";
+      inputComment.placeholder = "Commentaire / action si nécessaire";
+      cellComment.appendChild(inputComment);
+
+      // Colonne preuve (photo)
+      const cellProof = document.createElement("div");
+      cellProof.className = "critere-cell evidence-cell";
+      const inputFile = document.createElement("input");
+      inputFile.type = "file";
+      inputFile.accept = "image/*";
+      cellProof.appendChild(inputFile);
+
+      row.appendChild(cellLibelle);
+      row.appendChild(cellNote);
+      row.appendChild(cellComment);
+      row.appendChild(cellProof);
+
+      criteresContainer.appendChild(row);
+    });
+  }
+
+  // Synchronisation zone select / badges
+  function setZone(zone) {
+    zoneSelect.value = zone;
+    zoneBadges.forEach(b => {
+      if (b.dataset.zone === zone) {
+        b.classList.add("active");
+      } else {
+        b.classList.remove("active");
+      }
+    });
+    buildChecklistForZone(zone);
+  }
+
+  zoneSelect.addEventListener("change", (e) => {
+    setZone(e.target.value);
+  });
+
+  zoneBadges.forEach(badge => {
+    badge.addEventListener("click", () => {
+      const z = badge.dataset.zone;
+      setZone(z);
+    });
+  });
+
+  // Fonction de calcul du score global + mise à jour des panneaux
+  function calculerScore() {
+    const auditeur = document.getElementById("auditeur").value.trim();
+    const dateAudit = document.getElementById("dateAudit").value;
+    const zone = zoneSelect.value;
+    const typeAudit = document.getElementById("typeAudit").value;
+
+    if (!auditeur || !dateAudit || !zone) {
+      alert("Merci de renseigner le nom de l’auditeur, la date et la zone avant de calculer le score.");
+      return;
     }
-}
+
+    const rows = criteresContainer.querySelectorAll(".critere-row");
+    if (rows.length === 0) {
+      alert("Veuillez d’abord sélectionner une zone pour charger la checklist.");
+      return;
+    }
+
+    let total = 0;
+    let max = 0;
+    let nbNA = 0;
+
+    const ncItems = [];
+
+    rows.forEach(row => {
+      const select = row.querySelector(".note-select");
+      const comment = row.querySelector(".comment-input");
+      const label = row.querySelector(".critere-label").textContent;
+      const zoneTag = row.querySelector(".critere-zone-tag").textContent;
+
+      const val = select.value;
+      if (!val) {
+        throw new Error("Tous les critères doivent être évalués (Bien/Moyen/Mauvais/NA).");
+      }
+
+      if (val === "NA") {
+        nbNA++;
+        return;
+      }
+
+      const score = VALEURS[val];
+      if (score !== null) {
+        total += score;
+        max += 2;
+      }
+
+      if (val === "Mauvais" || val === "Moyen") {
+        ncItems.push({
+          label,
+          zone: zoneTag,
+          comment: comment.value.trim(),
+          gravite: val === "Mauvais" ? "Majeure" : "Mineure"
+        });
+      }
+    });
+
+    if (max === 0) {
+      alert("Tous les critères sont non applicables : score non calculable.");
+      return;
+    }
+
+    const pourcentage = Math.round((total / max) * 100);
+
+    // Mise à jour résumé
+    metaAuditeur.textContent = auditeur || "-";
+    metaDate.textContent = formatDateFR(dateAudit);
+    metaZone.textContent = zone || "-";
+    metaType.textContent = typeAudit || "-";
+
+    scoreCircle.textContent = pourcentage + "%";
+    mainPercent.textContent = pourcentage + "%";
+    ringInner.textContent = pourcentage;
+
+    scoreIndicator.style.left = pourcentage + "%";
+
+    let couleurStatus = "";
+    let textStatus = "";
+    let textLabel = "";
+    let textChip = "";
+
+    if (pourcentage >= 80) {
+      couleurStatus = "#27AE60";
+      textStatus = "Très bon";
+      textLabel = "Zone maîtrisée, propreté globale conforme aux attentes GXO.";
+      textChip = "Trend : niveau vert – surveiller la pérennité.";
+    } else if (pourcentage >= 60) {
+      couleurStatus = "#F1C40F";
+      textStatus = "Acceptable";
+      textLabel = "Propreté globalement correcte mais des améliorations sont nécessaires.";
+      textChip = "Trend : niveau jaune – plan d’actions à formaliser.";
+    } else {
+      couleurStatus = "#E74C3C";
+      textStatus = "Insuffisant";
+      textLabel = "Niveau de propreté non conforme, plan d’actions immédiat requis.";
+      textChip = "Trend : niveau rouge – action prioritaire management.";
+    }
+
+    scoreStatus.textContent = textStatus;
+    scoreStatus.style.color = couleurStatus;
+    mainLabel.textContent = textLabel;
+    mainChip.textContent = textChip;
+    mainChip.style.border = "1px solid " + couleurStatus;
+
+    scoreDetail.textContent =
+      "Score calculé sur " + rows.length + " critères, dont " + nbNA + " non applicable(s).";
+
+    // Liste des non-conformités / points d’attention
+    ncList.innerHTML = "";
+    if (ncItems.length === 0) {
+      const div = document.createElement("div");
+      div.style.fontSize = "12px";
+      div.style.color = "#2E7D32";
+      div.textContent = "Aucune non-conformité : tous les critères sont évalués en « Bien » ou NA.";
+      ncList.appendChild(div);
+    } else {
+      ncItems.forEach(item => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "nc-item";
+
+        const left = document.createElement("div");
+        const labelEl = document.createElement("div");
+        labelEl.className = "nc-label";
+        labelEl.textContent = item.label;
+        const commentEl = document.createElement("div");
+        commentEl.style.fontSize = "11px";
+        commentEl.style.color = "#7f4a3a";
+        commentEl.textContent =
+          (item.gravite === "Majeure" ? "[NC majeure] " : "[NC mineure] ") +
+          (item.comment || "Commentaire non saisi");
+        left.appendChild(labelEl);
+        left.appendChild(commentEl);
+
+        const right = document.createElement("div");
+        right.className = "nc-zone";
+        right.textContent = item.zone;
+
+        wrapper.appendChild(left);
+        wrapper.appendChild(right);
+        ncList.appendChild(wrapper);
+      });
+    }
+  }
+
+  btnCalcul.addEventListener("click", () => {
+    try {
+      calculerScore();
+    } catch (e) {
+      alert(e.message);
+    }
+  });
+
+  btnReset.addEventListener("click", () => {
+    if (!confirm("Réinitialiser l’ensemble de l’audit ?")) return;
+
+    document.getElementById("auditeur").value = "";
+    document.getElementById("dateAudit").value = "";
+    zoneSelect.value = "";
+    document.getElementById("typeAudit").value = "Hebdomadaire";
+
+    zoneBadges.forEach(b => b.classList.remove("active"));
+    criteresContainer.innerHTML = "";
+    subtitleChecklist.textContent =
+      "Sélectionner une zone pour charger la checklist spécifique (ex : CD5).";
+
+    metaAuditeur.textContent = "-";
+    metaDate.textContent = "-";
+    metaZone.textContent = "-";
+    metaType.textContent = "-";
+
+    scoreCircle.textContent = "--";
+    scoreStatus.textContent = "En attente";
+    scoreStatus.style.color = "#555";
+    scoreDetail.textContent = "Aucun calcul effectué";
+    mainPercent.textContent = "--%";
+    mainLabel.textContent = "En attente d’évaluation.";
+    mainChip.textContent = "Trend : N/A";
+    ringInner.textContent = "--";
+    scoreIndicator.style.left = "0%";
+    ncList.innerHTML = '<div style="font-size:12px; color:#777;">Aucune non-conformité détectée tant que le score n’est pas calculé.</div>';
+  });
+
+  // Par défaut, rien n’est sélectionné, l’auditeur devra choisir une zone.
 </script>
-
 </body>
 </html>
